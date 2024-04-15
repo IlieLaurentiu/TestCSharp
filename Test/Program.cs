@@ -31,10 +31,7 @@
                 // apelam functia muta cutii 
                 // desi este o cale foarte rigida, voi lua direct fiecare caracter de pe pozitia 5, 12 si 17, adica numarul de cutii si primele doua coloane din instructiune
                 // de pe fiecare linie, pentru a evita sa parcurg sau sa fac alte operatii cu siruri de caractere
-
-                
-
-                MutaCutii(linieFisier[5], Coloana[int.Parse(linieFisier[12].ToString()) - 1], Coloana[int.Parse(linieFisier[17].ToString()) - 1]);
+                MutaCutii(int.Parse(linieFisier[5].ToString()), Coloana[int.Parse(linieFisier[12].ToString()) - 1], Coloana[int.Parse(linieFisier[17].ToString()) - 1]);
 
                 // linieFisier devine linia urmatoare din fisierul citit
                 linieFisier = cititorFisier.ReadLine();
@@ -55,7 +52,6 @@
             for (int i = 0; i < numarCutii; i++)
             {
                 // scoatem 'cutia' din stackul iaDinColoana si o punem in mutaInColoana
-                Console.WriteLine($"Moving {numarCutii} boxes from column {iaDinColoana} to column {mutaInColoana}");
                 mutaInColoana.Push(iaDinColoana.Pop());
             }
         }
