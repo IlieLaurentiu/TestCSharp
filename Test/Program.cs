@@ -1,49 +1,12 @@
-﻿using System.IO;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace Test
+﻿namespace Test
 {
-    class CititorFisier
-    {
-        public static void CitesteInput(string path)
-        {
-            string line;
-
-            try
-            {
-
-                StreamReader streamReader = new(path);
-
-                line = streamReader.ReadLine();
-
-                while (line != null)
-                {
-                    Console.WriteLine(line);
-
-                    Console.WriteLine(line[5]);
-                    Console.WriteLine(line[12]);
-                    Console.WriteLine(line[17]);
-
-                    line = streamReader.ReadLine();
-                }
-
-                streamReader.Close();
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Exception: " + e.Message);
-            }
-        }
-    }
-
     class Program
     {
         static void Main(string[] args)
         {
             // Am creat si initializat un vector de stack-uri (coloane) pentru a contine cutiile
             Stack<string>[] Coloana = [new Stack<string>(), new Stack<string>(), new Stack<string>()];
+            string linieFisier;
 
             // Introducem valorile din problema in ordine inversa, in fiecare stack
             Coloana[0].Push("Z");
@@ -55,12 +18,20 @@ namespace Test
 
             Coloana[2].Push("P");
 
-            // Citim instructiunile date de catre fisier
-            CititorFisier.CitesteInput("D:\\Sample.txt");
+            StreamReader streamReader = new("D:\\Sample.txt");
+            linieFisier = streamReader.ReadLine();
 
-            TrimiteMesajElfilor("");
+            while (linieFisier != null)
+            {
+                Console.WriteLine(linieFisier);
+                //MutaCutii(linieFisier[5], Coloana[linieFisier[12] - 1], Coloana[linieFisier[17] - 1]);
 
-            MutaCutii(3, Coloana[1], Coloana[2]);
+                linieFisier = streamReader.ReadLine();
+            }
+
+            streamReader.Close();
+
+            TrimiteMesajElfilor($"{Coloana[0].Pop()}{Coloana[1].Pop()}{Coloana[2].Pop()}");
         }
 
         public static void MutaCutii(int numarCutii, Stack<string> dinStack, Stack<string> peStack)
