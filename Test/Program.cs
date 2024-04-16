@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 
 //cerinte:
@@ -71,6 +67,18 @@ namespace Test
 
 
 
+            i++;
+            for (; i < fisierText.Length; i++) 
+            {
+
+                RearanjeazaCutii(fisierText[i][5], coloane[int.Parse(fisierText[i][12].ToString()) - 1], coloane[int.Parse(fisierText[i][17].ToString()) - 1]);             
+            }
+
+            foreach(Stack<char> coloana in coloane)
+            {
+                Console.WriteLine(coloana.Peek());
+            }
+
             StreamReader cititorFisier = new(filePath);
             
             // Read the first line of text
@@ -111,6 +119,24 @@ namespace Test
             indexColoane = 0;
 
             return AdaugaCutii(i - 1, indexColoane, stacks, fisierText);
+        }
+
+        public static void RearanjeazaCutii(int numarCutii, Stack<char> dinColoana, Stack<char> inColoana)
+        {
+            if (numarCutii <= 0)
+            {
+                return; 
+            }
+
+            if (dinColoana.Count < numarCutii)
+            {
+                Console.WriteLine($"Ai incercat sa scoti {numarCutii} dintr-o coloana cu {dinColoana.Count} cutii");
+                return; 
+            }
+            
+            inColoana.Push(dinColoana.Pop());
+
+            RearanjeazaCutii(numarCutii - 1, dinColoana, inColoana);
         }
     }
 }
