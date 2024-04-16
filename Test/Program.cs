@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
 
@@ -34,53 +35,82 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            // avem nevoie de un numar de coloane care poate varia, cutii care sa aiba o coloana corespondenta
-            // instructiuni de urmat pentru rearanjari
-
-            string filePath = @"D:\Sample.txt"; // Replace with your file path
-            string[] readText = File.ReadAllLines(filePath);
-            string line;
-            
             Stack<char>[] coloane;
+            string filePath = @"D:\Sample.txt"; // Replace with your file path
+            string[] fisierText = File.ReadAllLines(filePath);
+            string line;
+            Regex regex = new(@"(\d+)(?!.*\d)");
+            Match match = regex.Match(""); 
 
-            StreamReader sr = new StreamReader(filePath);
-            
-            //Read the first line of text
-            line = sr.ReadLine();
-
-            //Continue to read until you reach end of file
-            while (line != null)
-            {
-                //Read the next line
-                line = sr.ReadLine();
-            }
-
+            // declaram i local functiei main deoarece il vom folosi pentru a continua parcurgerea in fisierText pentru rearanjamente
             int i;
-
-            // separam cutiile si coloanele de partea cu aranjamente 
-            for (i = 0; i < readText.Length; i++) 
-            { 
-                if (string.IsNullOrWhiteSpace(readText[i]))
+            for (i = 0; i < fisierText.Length; i++)
+            {
+                if (string.IsNullOrWhiteSpace(fisierText[i]))
                 {
-                    
-                    Regex regex = new Regex(@"(\d+)(?!.*\d)");
-                    Match match = regex.Match(readText[i - 1]);
-                    Console.WriteLine(match.Value);
-                    coloane = new Stack<char>[3];
-                    break;
+                    // folosim regex cu pattern-ul (\d+)(?!.*\d) pentru a gasi ultima cifra dintr-un sir de caractere,
+                    // mai exact cel precedent de randul gol din fisier dat de readText[i - 1]
+                    // astfel indiferent de cum sunt puse spatiile putem initializa un vector de coloane cu oricate coloane am avea nevoie
+                    match = regex.Match(fisierText[i - 1]);
+                    break; // in final iesim din for loop
                 }
             }
 
-            // parcurgem instructiunile
-            for (int j = 0; j < readText.Length; j++)
+            coloane = new Stack<char>[int.Parse(match.Value)];
+
+            int indexColoane = 0;
+
+            for(int k = 0; k < coloane.Length; k++)
             {
-                Console.WriteLine(readText[i]);
+                coloane[k] = new Stack<char>();
             }
 
-            sr.Close();
-            Console.ReadLine();
+            int copieI = i;
+            copieI -= 2;
+            AdaugaCutii(copieI, indexColoane, coloane, fisierText);
 
+
+
+            StreamReader cititorFisier = new(filePath);
+            
+            // Read the first line of text
+            line = cititorFisier.ReadLine();
+
+            // Continue to read until you reach end of file
+            while (line != null)
+            {
+                // Read the next line
+                line = cititorFisier.ReadLine();
+            }
+
+            cititorFisier.Close();
+            Console.ReadLine();
         }
-    
+
+        public static int AdaugaCutii(int i, int indexColoane, Stack<char>[] stacks, string[] fisierText)
+        {
+            for (int j = 1; j < fisierText[i].Length; j += 4)
+            {
+                if (char.IsLetter(fisierText[i][j]))
+                {
+                    stacks[indexColoane].Push(fisierText[i][j]);
+                }
+
+                if((j - 1) % 4  == 0)
+                {
+                    indexColoane++;
+                }
+            }
+
+            // functia a terminat de adaugat cutii
+            if(i - 1 < 0)
+            {
+                return 1;
+            }
+
+            indexColoane = 0;
+
+            return AdaugaCutii(i - 1, indexColoane, stacks, fisierText);
+        }
     }
 }
