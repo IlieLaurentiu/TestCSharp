@@ -39,12 +39,15 @@ namespace Test
 
             string filePath = @"D:\Sample.txt"; // Replace with your file path
             string[] readText = File.ReadAllLines(filePath);
-            string line; 
+            string line;
+            
+            Stack<char>[] coloane;
 
             StreamReader sr = new StreamReader(filePath);
             
             //Read the first line of text
             line = sr.ReadLine();
+
             //Continue to read until you reach end of file
             while (line != null)
             {
@@ -60,6 +63,10 @@ namespace Test
                 if (string.IsNullOrWhiteSpace(readText[i]))
                 {
                     
+                    Regex regex = new Regex(@"(\d+)(?!.*\d)");
+                    Match match = regex.Match(readText[i - 1]);
+                    Console.WriteLine(match.Value);
+                    coloane = new Stack<char>[3];
                     break;
                 }
             }
