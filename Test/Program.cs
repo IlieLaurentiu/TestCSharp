@@ -65,34 +65,16 @@ namespace Test
             copieI -= 2;
             AdaugaCutii(copieI, indexColoane, coloane, fisierText);
 
-
-
             i++;
             for (; i < fisierText.Length; i++) 
             {
-
-                RearanjeazaCutii(fisierText[i][5], coloane[int.Parse(fisierText[i][12].ToString()) - 1], coloane[int.Parse(fisierText[i][17].ToString()) - 1]);             
+                RearanjeazaCutii(int.Parse(fisierText[i][5].ToString()), coloane[int.Parse(fisierText[i][12].ToString()) - 1], coloane[int.Parse(fisierText[i][17].ToString()) - 1]);             
             }
 
             foreach(Stack<char> coloana in coloane)
             {
-                Console.WriteLine(coloana.Peek());
+               Console.Write(coloana.Peek());
             }
-
-            StreamReader cititorFisier = new(filePath);
-            
-            // Read the first line of text
-            line = cititorFisier.ReadLine();
-
-            // Continue to read until you reach end of file
-            while (line != null)
-            {
-                // Read the next line
-                line = cititorFisier.ReadLine();
-            }
-
-            cititorFisier.Close();
-            Console.ReadLine();
         }
 
         public static int AdaugaCutii(int i, int indexColoane, Stack<char>[] stacks, string[] fisierText)
