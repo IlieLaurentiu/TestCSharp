@@ -50,6 +50,12 @@ namespace Test
                 // folosim exact caracterele 5, 12 si 17 de pe linie pentru a lua numarul de cutii, coloana din care muta si coloana pe care mutam
                 // scadem 1 la coloane pentru a corecta la indexarea care incepe de la 0
                 // rearanjam cutiile
+                // tratam cazul in care se introduce o coloana cu numar mai mare decat totalul de coloane
+                if(int.Parse(fisierText[i][12].ToString()) - 1 > coloane.Length || int.Parse(fisierText[i][17].ToString()) - 1 > coloane.Length)
+                {
+                    Console.WriteLine("Nu exista atat de multe coloane");
+                }
+
                 RearanjeazaCutii(int.Parse(fisierText[i][5].ToString()), coloane[int.Parse(fisierText[i][12].ToString()) - 1], coloane[int.Parse(fisierText[i][17].ToString()) - 1]);             
             }
 
@@ -115,4 +121,7 @@ namespace Test
             RearanjeazaCutii(numarCutii - 1, dinColoana, inColoana);
         }
     }
+
+    // complexitatea spatiu-timp a programului este lineara - O(n)
+    // deoarece creste direct proportional cu marimea fisierului de input
 }
