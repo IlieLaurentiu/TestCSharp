@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 
 //cerinte:
@@ -23,6 +25,7 @@ using System.Collections.Generic;
 
 mesaj final CMZ (se ia doar cutiile de deasupra)
 
+
 */
 
 namespace Test
@@ -31,7 +34,44 @@ namespace Test
     {
         static void Main(string[] args)
         {
+            // avem nevoie de un numar de coloane care poate varia, cutii care sa aiba o coloana corespondenta
+            // instructiuni de urmat pentru rearanjari
+
+            string filePath = @"D:\Sample.txt"; // Replace with your file path
+            string[] readText = File.ReadAllLines(filePath);
+            string line; 
+
+            StreamReader sr = new StreamReader(filePath);
             
+            //Read the first line of text
+            line = sr.ReadLine();
+            //Continue to read until you reach end of file
+            while (line != null)
+            {
+                //Read the next line
+                line = sr.ReadLine();
+            }
+
+            int i;
+
+            // separam cutiile si coloanele de partea cu aranjamente 
+            for (i = 0; i < readText.Length; i++) 
+            { 
+                if (string.IsNullOrWhiteSpace(readText[i]))
+                {
+                    
+                    break;
+                }
+            }
+
+            // parcurgem instructiunile
+            for (int j = 0; j < readText.Length; j++)
+            {
+                Console.WriteLine(readText[i]);
+            }
+
+            sr.Close();
+            Console.ReadLine();
 
         }
     
